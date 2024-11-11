@@ -32,6 +32,7 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'relationship_app/register.html', {'form': form})
 
+# Helper functions to check roles
 def is_admin(user):
     return user.userprofile.role == 'Admin'
 
