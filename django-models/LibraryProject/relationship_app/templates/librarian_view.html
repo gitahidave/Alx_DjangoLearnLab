@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librarian Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Librarian Dashboard</h1>
+        <p>Hello, {{ user.username }}! You are logged in as a Librarian.</p>
+        <a href="{% url 'logout' %}">Logout</a>
+    </header>
+    
+    <main>
+        <section>
+            <h2>Librarian Actions</h2>
+            <ul>
+                <li><a href="{% url 'list_books' %}">View All Books</a></li>
+                <li><a href="{% url 'add_book' %}">Add New Book</a></li>
+                <li><a href="{% url 'edit_book' book_id=1 %}">Edit a Book (example)</a></li> <!-- Example book ID -->
+            </ul>
+        </section>
+
+        <section>
+            <h2>Library Information</h2>
+            <p>As a librarian, you have access to book management and inventory tasks.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Library Management System</p>
+    </footer>
+</body>
+</html>
