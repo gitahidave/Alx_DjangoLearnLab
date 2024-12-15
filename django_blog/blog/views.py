@@ -96,3 +96,34 @@ class CommentUpdateView(UpdateView):
 class CommentDeleteView(DeleteView):
     model = Comment
     template_name = 'comment_delete.html'
+
+
+def search(request):
+    query = request.GET.get('q') #get the search query from the request
+    results = []
+
+    if query:
+        #search for posts based on title, content, or tags
+        results = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)  # 'tags__name' if using django-taggit
+        ).distinct()   # Use distinct to avoid duplicates if a post matches multiple criteria
+
+    return render(request, 'blog/search_results.html', {'query': query, 'results': results})
+
+# view that filters post based on selected tags
+
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/posts_by_tag.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag_name = self.kwargs.get('tag_name')
+        return Post.objects.filter(tags__name=tag_name)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag_name'] = self.kwargs.get('tag_name')
+        return context
